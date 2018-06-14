@@ -1,0 +1,28 @@
+{
+  "name": "content-management",
+  "version": "1.0.0",
+  "description": "A Content Management System using NodeJS",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smiteshz/content-management.git"
+  },
+  "keywords": [
+    "Content",
+    "Management",
+    "System"
+  ],
+  "author": "Smitesh Sawant",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smiteshz/content-management/issues"
+  },
+  "homepage": "https://github.com/smiteshz/content-management#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0"
+  }
+}
