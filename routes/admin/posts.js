@@ -19,10 +19,19 @@ router.get('/create/', (req, res) => {
     res.render('admin/posts/create');
 })
 
+router.get('/edit/:id', (req, res) => {
+    Post.findById(req.params.id).then(post => {
+        res.render('admin/posts/edit', {post: post});
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send("Unable to retrieve the post");
+    })
+});
+
 router.post('/create/', (req, res) => {
     console.log(req.body);
     let allowComments = true;
-    if (allowComments){
+    if (req.body.allowComments){
         allowComments = true;
     }
     else{
