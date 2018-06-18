@@ -29,7 +29,6 @@ router.get('/edit/:id', (req, res) => {
 });
 
 router.post('/create/', (req, res) => {
-    console.log(req.body);
     let allowComments = true;
     if (req.body.allowComments){
         allowComments = true;
@@ -52,6 +51,35 @@ router.post('/create/', (req, res) => {
     });
 
     
+});
+
+router.put('/edit/:id', (req, res) => {
+    let allowComments = true;
+    if (req.body.allowComments){
+        allowComments = true;
+    }
+    else{
+        allowComments = false;
+    }
+    Post.findByIdAndUpdate(req.params.id, {title: req.body.title, status: req.body.status, allowComments: allowComments, body: req.body.body})
+    .then(results => {
+        res.redirect('/admin/posts');
+    }).catch(err => {
+        res.status(500).send("Error Updated the Post");
+    });
+});
+
+router.delete('/:id', (req, res) => {
+    Post.findByIdAndRemove(req.params.id)
+    .then(results => {
+        if (results){
+            res.redirect('/admin/posts');
+        }
+    }).catch(err => {
+        if (err) {
+            res.status(500).send("Unable to delete the post, sorry");
+        }
+    });
 })
 
 module.exports = router;

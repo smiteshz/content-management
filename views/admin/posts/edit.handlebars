@@ -1,6 +1,6 @@
 <h1>Create Post</h1>
 
-<form action="/admin/posts/create" method="POST">
+<form action="/admin/posts/edit/{{post.id}}?_method=PUT" method="POST">
 <div class="form-group">
     <label for="title">Title</label>
     <input type="text" class="form-control" name="title" id="title" value={{post.title}}>
@@ -8,9 +8,11 @@
 <div class="form-group">
     <label for="title">Title</label>
     <select name="status" id="status" class="form-control">
+        {{#select post.status}}
         <option value="Public">Public</option>
         <option value="Private">Private</option>
         <option value="Draft">Draft</option>
+        {{/select}}
     </select>
 </div>
 <div class="form-check">

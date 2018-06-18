@@ -7,6 +7,7 @@
             <th>Title</th>
             <th>Status</th>
             <th>Allow Comments?</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -17,7 +18,11 @@
             <td>{{title}}</td>
             <td>{{status}}</td>
             <td>{{allowComments}}</td>
-            <td><a href="posts/edit/{{id}}" class="btn btn-info">Edit</a></td>
+            <td><a href="posts/edit/{{id}}" class="btn btn-info">Edit</a>
+            </td>
+            <td>
+                <form action = "/admin/posts/{{id}}?_method=DELETE" method="post"><button type="submit" class="btn btn-danger">Delete</button></form>
+            </td>
         </tr>
         {{/each}}
     </tbody>
