@@ -48,9 +48,7 @@ router.post('/create/', (req, res) => {
     }).catch(err =>{
         // console.log(err);
         res.status(500).send("Error saving the data");
-    });
-
-    
+    });   
 });
 
 router.put('/edit/:id', (req, res) => {

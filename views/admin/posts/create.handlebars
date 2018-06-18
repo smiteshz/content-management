@@ -1,10 +1,12 @@
 <h1>Create Post</h1>
 
-<form action="/admin/posts/create" method="POST">
+<form action="/admin/posts/create" method="POST" enctype="multipart/form-data">
+
 <div class="form-group">
     <label for="title">Title</label>
     <input type="text" class="form-control" name="title" id="title" placeholder="Enter Title">
 </div>
+
 <div class="form-group">
     <label for="title">Title</label>
     <select name="status" id="status" class="form-control">
@@ -13,9 +15,16 @@
         <option value="Draft">Draft</option>
     </select>
 </div>
+
 <div class="form-check">
     <label for="allowComments">Allow Comments?</label>
     <input type="checkbox" name="allowComments" class="form-check-inline" id="allowComments">
+</div>
+
+<div class="form-group">
+  <label for="picture">Add attachments</label>
+  <input type="file" class="form-control-file" name="picture" id="picture" placeholder="" aria-describedby="fileHelpId">
+  <small id="fileHelpId" class="form-text text-muted">.jpg, .png, .gif, .bmp files supported.</small>
 </div>
 
 <div class="form-check">
