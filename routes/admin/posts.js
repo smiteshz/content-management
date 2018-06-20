@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
+const fs = require('fs');
+const {isEmpty, uploadDir} = require('../../helpers/upload-helper');
+
 
 router.all('/*', (req, res, next) => {
     req.app.locals.layout = 'admin';
@@ -29,6 +32,14 @@ router.get('/edit/:id', (req, res) => {
 });
 
 router.post('/create/', (req, res) => {
+    let fileName = '';
+    if (!isEmpty(req.files)){
+        let file = req.files.picture; 
+        fileName = file.name;
+        file.mv('./public/uploads/' + fileName, err => {
+            if(err) res.status(500).send(err);
+        });
+    }
     let allowComments = true;
     if (req.body.allowComments){
         allowComments = true;
@@ -40,7 +51,8 @@ router.post('/create/', (req, res) => {
         title: req.body.title,
         status: req.body.status,
         allowComments: allowComments,
-        body: req.body.body
+        body: req.body.body,
+        files: fileName
     });
     newPost.save().then(savedPost => {
         // console.log(savedPost);
@@ -68,14 +80,19 @@ router.put('/edit/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    Post.findByIdAndRemove(req.params.id)
+    Post.findById(req.params.id)
     .then(results => {
         if (results){
-            res.redirect('/admin/posts');
+            fs.unlink(uploadDir + results.files, (err) => {
+                if (err) throw err;
+            });
+            results.remove().then(obj => {res.redirect('/admin/posts')})
+            .catch(err => {console.log(err)});
+            
         }
     }).catch(err => {
         if (err) {
-            res.status(500).send("Unable to delete the post, sorry");
+            console.log(err);
         }
     });
 })

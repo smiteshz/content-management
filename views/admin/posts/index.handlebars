@@ -4,6 +4,7 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Attachments</th>
             <th>Title</th>
             <th>Status</th>
             <th>Allow Comments?</th>
@@ -15,6 +16,7 @@
         {{#each posts}}
         <tr>
             <td>{{id}}</td>
+            <td><center><img height = 50 class="img-responsive" src="/uploads/{{files}}" alt="{{files}}"></center></td>
             <td>{{title}}</td>
             <td>{{status}}</td>
             <td>{{allowComments}}</td>

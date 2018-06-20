@@ -19,6 +19,9 @@ const PostSchema = new Schema({
         type: String,
         required: true
 
+    },
+    files : {
+        type: String
     }
 });
 
