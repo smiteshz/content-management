@@ -1,9 +1,12 @@
 <h1>All Posts</h1>
 
+{{> admin/form-messages}}
+
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>ID</th>
+            <th>Created On</th>
             <th>Attachments</th>
             <th>Title</th>
             <th>Status</th>
@@ -16,6 +19,7 @@
         {{#each posts}}
         <tr>
             <td>{{id}}</td>
+            <td>{{formatDate date "dddd, MMMM Do YYYY, h:mm:ss a"}}</td>
             <td><center><img height = 50 class="img-responsive" src="/uploads/{{files}}" alt="{{files}}"></center></td>
             <td>{{title}}</td>
             <td>{{status}}</td>

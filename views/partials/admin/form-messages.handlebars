@@ -1,0 +1,24 @@
+{{#if post_created}}
+
+<div class="alert alert-success" role="alert">
+    <strong>{{post_created}}</strong>
+</div>
+{{/if}}
+
+{{#if post_updated}}
+
+<div class="alert alert-primary">
+    <strong>{{post_updated}}</strong>
+</div>
+
+{{/if}}
+
+{{#if post_deleted}}
+
+<div class="alert alert-danger">
+    <strong>
+        {{post_deleted}}
+    </strong>
+</div>
+
+{{/if}}
