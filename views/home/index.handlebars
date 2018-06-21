@@ -1,10 +1,10 @@
+<body>  
   <div class="row">
 
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
-          <h1 class="my-4">Page Heading
-            <small>Secondary Text</small>
+          <h1 class="my-4">Blog Posts
           </h1>
           
           {{#each posts}}
@@ -14,7 +14,7 @@
             <div class="card-body">
               <h2 class="card-title">{{title}}</h2>
               <p class="card-text">{{body}}</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
+              <a href="/posts/{{id}}" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
               Posted {{formatDate date "MMM Do YYYY"}} by
@@ -98,3 +98,4 @@
 
       </div>
       <!-- /.row -->
+</body>

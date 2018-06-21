@@ -15,6 +15,14 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/posts/:id', (req, res) => {
+    Post.findById(req.params.id).then(results => {
+        res.render('home/post', {post: results});
+    }).catch(err => {
+        res.status(500).send(err);
+    });
+});
+
 router.get('/login/', (req, res) => {
     res.render('home/login');
 })
