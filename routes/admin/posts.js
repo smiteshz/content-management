@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
+const Category = require('../../models/Category');
 const fs = require('fs');
 const {isEmpty, uploadDir} = require('../../helpers/upload-helper');
 
@@ -12,15 +13,24 @@ router.all('/*', (req, res, next) => {
 
 router.get('/', (req, res) => {
     Post.find({}).then(posts => {
-        res.status(200).render('admin/posts/', {posts: posts});
+        Category.findById(posts.category).then(category => {
+            res.render('admin/posts/', {posts: posts, categories: category});
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        // res.render('admin/posts/', {posts: posts});
     }).catch(err => {
         res.status(500).send("Error retriving records");
     });
 });
 
 router.get('/create/', (req, res) => {
-    res.render('admin/posts/create');
-})
+    Category.find({}).then(categories => {
+        res.render('admin/posts/create', {categories:categories});    
+    }).catch(err => {
+        res.status(500).send(err);
+    });
+});
 
 router.get('/edit/:id', (req, res) => {
     Post.findById(req.params.id).then(post => {
@@ -48,6 +58,7 @@ router.post('/create/', (req, res) => {
         allowComments = false;
     }
     const newPost = new Post({
+        category: req.body.category,
         title: req.body.title,
         status: req.body.status,
         allowComments: allowComments,
@@ -96,12 +107,6 @@ router.put('/edit/:id', (req, res) => {
         console.log(err);
         res.status(500).send("Error updating the post");
     });
-    // Post.findByIdAndUpdate(req.params.id, {title: req.body.title, status: req.body.status, allowComments: allowComments, body: req.body.body})
-    // .then(results => {
-    //     res.redirect('/admin/posts');
-    // }).catch(err => {
-    //     res.status(500).send("Error Updated the Post");
-    // });
 });
 
 router.delete('/:id', (req, res) => {
@@ -109,11 +114,10 @@ router.delete('/:id', (req, res) => {
     .then(results => {
         if (results){
             if (results.files === "default.jpg"){
-                
             }
             else{
                 fs.unlink(uploadDir + results.files, (err) => {
-                    if (err) throw err;
+                    if (err) console.log (err);
                 });
             }
             results.remove().then(obj => {

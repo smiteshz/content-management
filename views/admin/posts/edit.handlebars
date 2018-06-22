@@ -6,12 +6,20 @@
     <input type="text" class="form-control" name="title" id="title" value={{post.title}}>
 </div>
 <div class="form-group">
-    <label for="title">Title</label>
+    <label for="Status">Visibility</label>
     <select name="status" id="status" class="form-control">
         {{#select post.status}}
         <option value="Public">Public</option>
         <option value="Private">Private</option>
         <option value="Draft">Draft</option>
+        {{/select}}
+    </select>
+</div>
+<div class="form-group">
+    <label for="title">Category</label>
+    <select name="status" id="status" class="form-control">
+        {{#select categories}}
+        <option value="id">{{title}}</option>
         {{/select}}
     </select>
 </div>

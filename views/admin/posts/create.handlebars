@@ -8,11 +8,20 @@
 </div>
 
 <div class="form-group">
-    <label for="title">Title</label>
+    <label for="status">Visibility</label>
     <select name="status" id="status" class="form-control">
         <option value="Public">Public</option>
         <option value="Private">Private</option>
         <option value="Draft">Draft</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="title">Category</label>
+    <select name="category" id="category" class="form-control">
+        {{#each categories}}
+        <option value="{{id}}">{{title}}</option>
+        {{/each}}
     </select>
 </div>
 
