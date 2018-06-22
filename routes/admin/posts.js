@@ -12,15 +12,13 @@ router.all('/*', (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    Post.find({}).then(posts => {
-        Category.findById(posts.category).then(category => {
-            res.render('admin/posts/', {posts: posts, categories: category});
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-        // res.render('admin/posts/', {posts: posts});
+    Post.find({})
+    .populate('category')
+    .then(posts => {
+            res.render('admin/posts/', {posts: posts});
     }).catch(err => {
-        res.status(500).send("Error retriving records");
+        console.log(err);
+        res.status(500).send(err);
     });
 });
 
@@ -34,7 +32,11 @@ router.get('/create/', (req, res) => {
 
 router.get('/edit/:id', (req, res) => {
     Post.findById(req.params.id).then(post => {
-        res.render('admin/posts/edit', {post: post});
+        Category.find({}).then(categories => {
+            res.render('admin/posts/edit', {post: post, categories:categories});
+        }).catch(err => {
+            res.status(500).send(err);
+        });
     }).catch(err => {
         console.log(err);
         res.status(500).send("Unable to retrieve the post");
