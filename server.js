@@ -17,10 +17,12 @@ const posts = require('./routes/admin/posts');
 const categories = require('./routes/admin/categories');
 
 const {select, formatDate} = require('./helpers/handlebars-helpers');
+const {mongoDbUrl} = require('./config/database');
+
 
 //Database Connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/cms').then((db) => {
+mongoose.connect(mongoDbUrl).then((db) => {
     console.log('Connected to the database');
 }).catch(err => {console.log(err)});
 
