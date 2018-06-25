@@ -4,9 +4,9 @@ const Post = require('../../models/Post');
 const Category = require('../../models/Category');
 const fs = require('fs');
 const {isEmpty, uploadDir} = require('../../helpers/upload-helper');
+const {userAuthenticated} = require('../../helpers/authentication-helper');
 
-
-router.all('/*', (req, res, next) => {
+router.all('/*', userAuthenticated,(req, res, next) => {
     req.app.locals.layout = 'admin';
     next();
 });
@@ -62,6 +62,7 @@ router.post('/create/', (req, res) => {
     const newPost = new Post({
         category: req.body.category,
         title: req.body.title,
+        createdBy: req.user,
         status: req.body.status,
         allowComments: allowComments,
         body: req.body.body,
@@ -113,11 +114,17 @@ router.put('/edit/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     Post.findById(req.params.id)
+    .populate('comments')
     .then(results => {
         if (results){
             if (results.files === "default.jpg"){
             }
             else{
+                if (results.comments.length > 0){
+                    results.comments.forEach(comment => {
+                        comment.remove();
+                    });
+                }
                 fs.unlink(uploadDir + results.files, (err) => {
                     if (err) console.log (err);
                 });

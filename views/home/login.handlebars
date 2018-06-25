@@ -8,6 +8,10 @@
                     {{error}}
                 </div>
             {{/if}}
+
+            {{#if message}}
+                <div class="alert alert-danger">{{message}}</div>                
+            {{/if}}
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
                 <input required name="email" class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email">

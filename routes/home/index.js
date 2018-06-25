@@ -19,19 +19,30 @@ passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done)
         }
         bcrypt.compare(password, user.password, (err, matched) => {
             if (err){
-                console.log(err);
+                return (err);
             }
             if(matched){
                 return done(null, user);
             }
             else{
+                console.log("Invalid Password");
                 return done(null, false, {message: `User ${email} does not have the right password`});
             }
         });
     }).catch(err => {
-
+        return (err)
     });
 }));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+      done(err, user);
+    });
+  });
 
 
 
@@ -46,8 +57,11 @@ router.get('/', (req, res) => {
 })
 
 router.get('/posts/:id', (req, res) => {
-    Post.findById(req.params.id).then(posts => {
-        Category.find({}).then(categories => {
+    Post.findById(req.params.id)
+    .populate('comments')
+    .populate('createdBy')
+    .then(posts => {
+            Category.find({}).then(categories => {
             res.render('home/post', {post: posts, categories: categories});
         });
     }).catch(err => {
@@ -65,6 +79,12 @@ router.post('/login', (req, res, next) => {
         failureRedirect: '/login',
         failureFlash: true
     })(req, res, next);
+
+});
+
+router.get('/logout', (req, res) => {
+    req.logOut();
+    res.redirect('/login');
 
 });
 

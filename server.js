@@ -5,6 +5,7 @@ const app = express();
 const expressHandlerbars = require('express-handlebars');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+const passport = require('passport');
 const upload = require('express-fileupload');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -15,6 +16,7 @@ const home = require('./routes/home/index');
 const admin = require('./routes/admin/index');
 const posts = require('./routes/admin/posts');
 const categories = require('./routes/admin/categories');
+const comments = require('./routes/admin/comments');
 
 const {select, formatDate} = require('./helpers/handlebars-helpers');
 const {mongoDbUrl} = require('./config/database');
@@ -42,12 +44,16 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 app.use((req, res, next) => {
+    res.locals.user = req.user || null;
     res.locals.post_created = req.flash('post_created');
     res.locals.post_updated = req.flash('post_updated');
     res.locals.post_deleted = req.flash('post_deleted');
+    res.locals.error = req.flash('error');
     next();
 });
 
@@ -56,7 +62,7 @@ app.use('/', home);
 app.use('/admin/', admin);
 app.use('/admin/posts/', posts);
 app.use('/admin/categories/', categories);
-
+app.use('/admin/comments', comments);
 
 //Listen Server
 app.listen(4444, () => {
