@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Blog Home - Start Bootstrap Template</title>
+    <title>SmitBlog - Express your feelings</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -24,27 +24,23 @@
 {{>home/home-nav}}
     <!-- Page Content -->
     <div class="container">
-{{#if errors}} 
-{{#each errors}}
-<div class="alert alert-danger">
-  {{message}}
-</div>
-{{/each}}
-{{/if}}
+      {{#if errors}} 
+      {{#each errors}}
+      <div class="alert alert-danger">
+        {{message}}
+      </div>
+      {{/each}}
+      {{/if}}
+      {{#if warnings}}
+      {{#each warnings}}
+      <div class="alert alert-warning">{{message}}</div>  
+      {{/each}}
+      {{/if}}
+      {{#if notifications}}
+      <div class="alert alert-primary">{{notifications}}</div>
+      {{/if}}
 
-{{#if warnings}}
-{{#each warnings}}
-<div class="alert alert-warning">{{message}}</div>  
-{{/each}}
-{{/if}}
-
-{{#if notifications}}
-{{#each notifications}}
-<div class="alert alert-primary">{{message}}</div>
-{{/each}}
-{{/if}}
-
-{{{body}}}
+  {{{body}}}
     
     </div>
     <!-- /.container -->

@@ -53,6 +53,7 @@ app.use((req, res, next) => {
     res.locals.post_created = req.flash('post_created');
     res.locals.post_updated = req.flash('post_updated');
     res.locals.post_deleted = req.flash('post_deleted');
+    res.locals.notifications = req.flash('success_message');
     res.locals.error = req.flash('error');
     next();
 });

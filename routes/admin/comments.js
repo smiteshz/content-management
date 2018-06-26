@@ -27,6 +27,7 @@ router.post('/', (req, res) => {
         post.comments.push(newComment);
         post.save().then(savedPost => {
             newComment.save().then(savedComment => {
+                req.flash('success_message', 'Comment was successfully posted, Waiting for moderation from the OP');
                 res.redirect(`/posts/${req.body.id}`);
             }).catch(err => {
                 res.status(500).send(err);
@@ -50,6 +51,17 @@ router.delete('/:id', (req, res) =>{
         res.status(500).send(err);
     });
     ;
+});
+
+router.post('/approve-comment', (req, res) => {
+    console.log(req.body.id)
+    Comment.findByIdAndUpdate(req.body.id, {approved: req.body.approveComment})
+    .then(updated => {
+        res.status(200).json({success: true, value: req.body.approveComment});
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json();
+    });
 });
 
 module.exports = router;

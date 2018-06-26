@@ -1,4 +1,4 @@
-<h1>All Posts</h1>
+<h1>My Posts</h1>
 
 {{> admin/form-messages}}
 
@@ -13,7 +13,7 @@
             <th>Category</th>
             <th>Allow Comments?</th>
             <th>View</th>
-
+            <th></th>
         </tr>
     </thead>
 
@@ -28,6 +28,11 @@
             <td>{{category.title}}</td>
             <td>{{allowComments}}</td>
             <td><a href="/posts/{{id}}" class="btn btn-info"><i class="fa fa-external-link" aria-hidden="true"></i> View Post</a></td>
+            <td><a href="/admin/posts/edit/{{id}}" class="btn btn-info">Edit</a>
+            </td>
+            <td>
+                <form action = "/admin/posts/{{id}}?_method=DELETE" method="post"><button type="submit" class="btn btn-danger">Delete</button></form>
+            </td>
         </tr>
         {{/each}}
     </tbody>

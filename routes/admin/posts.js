@@ -102,7 +102,7 @@ router.put('/edit/:id', (req, res) => {
         results.body = req.body.body;
         results.save().then(updatedPost => {
             req.flash('post_updated', `${updatedPost.title} was successfully updated!`);
-            res.redirect('/admin/posts');
+            res.redirect('/admin/posts/my-posts');
         }).catch(err => {
             res.status(500).send(err);
         });
@@ -131,7 +131,7 @@ router.delete('/:id', (req, res) => {
             }
             results.remove().then(obj => {
                 req.flash('post_deleted', `${results.title} was successfully deleted`);
-                res.redirect('/admin/posts');
+                res.redirect('/admin/posts/my-posts');
             })
             .catch(err => {console.log(err)});
         }
@@ -141,5 +141,16 @@ router.delete('/:id', (req, res) => {
         }
     });
 })
+
+router.get('/my-posts', (req, res) => {
+    Post.find({createdBy: req.user.id})
+    .then(posts => {
+        res.render('admin/posts/my-posts', {posts: posts});
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).render("Unable to retrive your posts");
+    })
+});
 
 module.exports = router;

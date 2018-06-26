@@ -7,6 +7,7 @@
       <th scope="col">Author</th>
       <th scope="col">Body</th>
       <th scope="col">Posted On</th>
+      <th scope="col">Approve?</th>
       <th></th>
     </tr>
   </thead>
@@ -17,6 +18,7 @@
       <td>{{user.firstName}} {{user.lastName}}</td>
       <td>{{body}}</td>
       <td>{{formatDate date "MMM Do YYYY hh:mm a"}}</td>
+      <td><input data-id="{{id}}" type="checkbox" name="approveComment" {{#if approved}} checked {{/if}} id="approveComment"></td>
       <td><form action="/admin/comments/{{id}}?_method=DELETE" method="post">
           <button type="submit" class="btn btn-danger">Delete</button>
       </form></td>

@@ -47,7 +47,7 @@ passport.deserializeUser(function(id, done) {
 
 
 router.get('/', (req, res) => {
-    Post.find({}).then(posts => {
+    Post.find({}).populate('createdBy').then(posts => {
         Category.find({}).then(categories => {
             res.render('home/index', {posts: posts, categories: categories});    
         })
@@ -58,7 +58,7 @@ router.get('/', (req, res) => {
 
 router.get('/posts/:id', (req, res) => {
     Post.findById(req.params.id)
-    .populate('comments')
+    .populate({path : 'comments', match: {approved: true}, populate: {path: 'user'}})
     .populate('createdBy')
     .then(posts => {
             Category.find({}).then(categories => {
